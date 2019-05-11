@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.dao.RoleDao">
+    <select id="listRole" resultType="com.test.entity.Roles">
+      select * from roles
+      order by role_id
+    </select>
+
+    <select id="getRoleById" resultType="com.test.entity.Roles">
+         select * from roles
+         where role_id=#{roleId}
+    </select>
+
+    <update id="updateRole" parameterType="com.test.entity.Roles" >
+    update roles
+    set role_name = #{roleName,jdbcType=VARCHAR},
+      role_remark = #{roleRemark,jdbcType=VARCHAR}
+    where role_id = #{roleId,jdbcType=BIGINT}
+  </update>
+
+    <select id="checkRoleName" resultType="com.test.entity.Roles">
+      select * from roles
+      where role_name=#{roleName}
+    </select>
+
+    <insert id="insert" parameterType="com.test.entity.Roles">
+      insert into roles ( role_name, role_remark)
+      values (#{roleName,jdbcType=VARCHAR}, #{roleRemark,jdbcType=VARCHAR})
+    </insert>
+
+    <delete id="deleteRoleById">
+        delete from roles
+        where role_id = #{roleId,jdbcType=BIGINT}
+    </delete>
+</mapper>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.dao.UserDao">
+    <select id="selectByUser" resultType="com.test.entity.User" parameterType="com.test.entity.User">
+      select * from user
+      <where>
+          <if test="username!=null and username!=''">
+              and username=#{username}
+          </if>
+          <if test="eMail!=null and eMail!=''">
+              and e_mail=#{eMail}
+          </if>
+          <if test="password!=null and password!=''">
+              and password=#{password}
+          </if>
+      </where>
+
+    </select>
+
+    <select id="userList" resultType="com.test.entity.User">
+      select * from User
+      order by id
+    </select>
+
+    <select id="selectUserById" resultType="com.test.entity.User">
+        select * from User
+        <where>
+            <if test="idList!= null">
+                id in
+                <foreach collection="idList" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteUserById">
+        delete from user
+        where identity =#{Id}
+    </delete>
+
+    <insert id="insertUser" parameterType="com.test.entity.User">
+        insert into user (id, username, password,salt, fullname, e_mail,sex, birthday, address,phone, role_id)
+        values (#{id,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+      #{salt,jdbcType=VARCHAR}, #{fullname,jdbcType=VARCHAR}, #{eMail,jdbcType=VARCHAR},
+      #{sex,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, #{address,jdbcType=VARCHAR},
+      #{phone,jdbcType=VARCHAR}, #{roleId,jdbcType=BIGINT})
+    </insert>
+
+    <update id="updateUser" parameterType="com.test.entity.User">
+        update user
+        <set>
+            <if test="username!=null and username!=''">
+                username = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="password!=null and password!=''">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="salt!=null and salt!=''">
+                salt = #{salt,jdbcType=VARCHAR},
+            </if>
+            <if test="fullname!=null and fullname!=''">
+                fullname = #{fullname,jdbcType=VARCHAR},
+            </if>
+            <if test="eMail!=null and eMail!=''">
+                e_mail = #{eMail,jdbcType=VARCHAR},
+            </if>
+            <if test="sex!=null and sex!=''">
+                sex = #{sex,jdbcType=VARCHAR},
+            </if>
+            <if test="birthday!=null and birthday!=''">
+                birthday = #{birthday,jdbcType=DATE},
+            </if>
+            <if test="address!=null and address!=''">
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="phone!=null and phone!=''">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="roleId!=null and roleId!=''">
+                role_id = #{roleId,jdbcType=BIGINT}
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

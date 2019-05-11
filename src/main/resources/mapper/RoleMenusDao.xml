@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.dao.RoleMenusDao">
+    <delete id="deleteByRoleId" >
+        delete  from roles_menus
+        where role_id=#{roleId}
+    </delete>
+
+    <insert id="insert" parameterType="com.test.entity.RolesMenus" >
+        insert into roles_menus (menu_id, role_id)
+        values (#{menuId,jdbcType=BIGINT}, #{roleId,jdbcType=BIGINT})
+    </insert>
+
+    <select id="selectRolesMenusByRoleId" resultType="com.test.entity.RolesMenus">
+        select * from roles_menus as a
+        where role_id=#{roleId}
+    </select>
+</mapper>

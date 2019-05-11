@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.dao.MenusDao">
+    <select id="getMenus" resultType="com.test.entity.Menu">
+        select b.* from roles_menus a
+        left join menus b on a.menu_id=b.menu_id
+        where a.role_id=#{roleId}
+    </select>
+
+    <select id="getMenuById" resultType="com.test.entity.Menu">
+        select * from menus
+        where menu_Id=#{menuId}
+    </select>
+
+    <select id="checkMenuByTitle" parameterType="com.test.entity.Menu" resultType="com.test.entity.Menu">
+        select * from menus
+        where title=#{title}
+    </select>
+
+    <select id="selectMenuList" resultType="com.test.entity.Menu">
+        select * from menus
+        order by menu_id
+    </select>
+
+    <select id="checkMenuTitleSameLevel" parameterType="com.test.entity.Menu" resultType="com.test.entity.Menu">
+        select * from menus
+        where parent_id=#{parentId}
+        and title=#{title}
+    </select>
+
+    <update id="updateMenu" parameterType="com.test.entity.Menu">
+        update menus
+        set title = #{title,jdbcType=VARCHAR},
+          icon = #{icon,jdbcType=VARCHAR},
+          href = #{href,jdbcType=VARCHAR},
+          perms = #{perms,jdbcType=VARCHAR},
+          spread = #{spread,jdbcType=VARCHAR},
+          parent_id = #{parentId,jdbcType=BIGINT},
+          sorting = #{sorting,jdbcType=BIGINT}
+        where menu_id = #{menuId,jdbcType=BIGINT}
+    </update>
+
+    <insert id="insertMenu" parameterType="com.test.entity.Menu">
+      insert into menus (menu_id, title, icon,href, perms, spread,parent_id, sorting)
+      values (#{menuId,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR},
+      #{href,jdbcType=VARCHAR}, #{perms,jdbcType=VARCHAR}, #{spread,jdbcType=VARCHAR},
+      #{parentId,jdbcType=BIGINT}, #{sorting,jdbcType=BIGINT})
+    </insert>
+
+    <delete id="deleleteMenuById">
+        delete  from menus
+        where menu_id=#{menuId}
+    </delete>
+
+    <select id="getMenuByParentId" resultType="com.test.entity.Menu">
+        select * from menus
+        where parent_id=#{parentId}
+    </select>
+</mapper>
